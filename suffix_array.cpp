@@ -16,7 +16,6 @@ inline bool cmp(int i, int j) {
 }
 
 void suffix_array() {
-
 	s[n++] = '#';
 
 	for(int i = 0; i < n; ++i)
@@ -25,36 +24,32 @@ void suffix_array() {
 	sort(suff, suff + n, &cmp);
 
 	for(int i = 0; i < n; ++i) {
-
 		if(i == 0 || s[suff[i]] != s[suff[i-1]]) {
 			head[cn] = i;
 			col[suff[i]] = cn++;
+		} else {
+			col[suff[i]] = cn - 1;
 		}
-		else col[suff[i]] = cn - 1;
 	}
 
 	for(int len = 1; len <= n; len <<= 1) {
-
 		for(int i = 0; i < n; ++i) {
-
 			int pos = suff[i] - len;
 			if(pos < 0) pos += n;
 			nsuff[head[col[pos]]++] = pos;
 		}
 
-		for(int i = 0; i < n; ++i) 
+		for(int i = 0; i < n; ++i)
 			suff[i] = nsuff[i];
 		cn = 0;
 
 		for(int i = 0; i < n; ++i) {
-
-			if(i == 0
+			if (i == 0
 				|| col[suff[i]] != col[suff[i-1]]
 				|| col[(suff[i] + len) % n] != col[(suff[i-1] + len) % n]) {
 				head[cn] = i;
 				ncol[suff[i]] = cn++;
-			}
-			else ncol[suff[i]] = cn - 1;
+			} else ncol[suff[i]] = cn - 1;
 		}
 
 		for(int i = 0; i < n; ++i)
@@ -70,14 +65,12 @@ int p[N];
 int lcp[N];
 
 void calc_lcp() {
-
 	int len = 0;
 
 	for(int i = 0; i < n; ++i)
 		p[suff[i]] = i;
 
 	for(int i = 0; i < n; ++i) {
-
 		int pos = p[i];
 		if(pos == n - 1) {
 			len = 0;
@@ -97,7 +90,6 @@ void calc_lcp() {
 }
 
 int main() {
-
 	scanf("%s", s);
 	n = strlen(s);
 
@@ -111,4 +103,5 @@ int main() {
 	}
 
 	return 0;
+
 }
