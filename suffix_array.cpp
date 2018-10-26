@@ -24,11 +24,12 @@ void suffix_array() {
 	sort(suff, suff + n, &cmp);
 
 	for(int i = 0; i < n; ++i) {
-		if(i == 0 || s[suff[i]] != s[suff[i-1]]) {
+		int sf = suff[i];
+		if(i == 0 || s[sf] != s[suff[i-1]]) {
 			head[cn] = i;
-			col[suff[i]] = cn++;
+			col[sf] = cn++;
 		} else {
-			col[suff[i]] = cn - 1;
+			col[sf] = cn - 1;
 		}
 	}
 
@@ -44,12 +45,13 @@ void suffix_array() {
 		cn = 0;
 
 		for(int i = 0; i < n; ++i) {
+			int sf = suff[i], psf = suff[i-1];
 			if (i == 0
-				|| col[suff[i]] != col[suff[i-1]]
-				|| col[(suff[i] + len) % n] != col[(suff[i-1] + len) % n]) {
+				|| col[sf] != col[psf]
+				|| col[(sf + len) % n] != col[(psf + len) % n]) {
 				head[cn] = i;
-				ncol[suff[i]] = cn++;
-			} else ncol[suff[i]] = cn - 1;
+				ncol[sf] = cn++;
+			} else ncol[sf] = cn - 1;
 		}
 
 		for(int i = 0; i < n; ++i)
